@@ -10,16 +10,27 @@ best <- function(state, outcome) {
     } else if(!outcome %in% c("heart attack", "heart failure", "pneumonia")) {
       stop("invalid outcome")
       
+    } 
+    
+    
+    ## Return hospital name in that state with lowest 30-day death
+    ## rate
+    s <- split(df, df$State)
+    usedf <- as.data.frame(s[state])
+   
+    #change outcome variable to match the colnames
+    if(outcome == "heart attack"){
+        outcomeverbose <- "Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack"
+    } else if(outcome == "heart failure"){
+        outcomeverbose <- "Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure"
     } else {
-          ## Return hospital name in that state with lowest 30-day death
-          ## rate
-          s <- split(df, df$State)
-          sapply(s, function(x) min())
-        }
+        outcomeverbose <- "Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia"
+    }
+          
       
     
     
 
-  str(bystate)
+  usedf[[outcomeverbose, exact=FALSE]]
   
 }
